@@ -1,0 +1,14 @@
+FROM node:18.11.0-alpine
+
+RUN apk update && apk add python3 make g++
+
+WORKDIR /usr/src/avl-app-backend/
+
+COPY ./package*.json ./
+RUN yarn
+
+COPY ./ ./
+
+EXPOSE 3000
+
+CMD ["yarn","start"]

@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+    image: avl-app-backend
+    container_name: rudderstack-backend-container
+    restart: always
+    command: yarn start:debug
+    volumes:
+      - ./:/usr/src/avl-app-backend/
+      - /usr/src/avl-app-backend/node_modules
+    ports:
+      - '3000:3000'
+      - '9229:9229'
+    env_file:
+      - .env.development
+    depends_on:
+      - psql
+    networks:
+      - avl_network
+
+  psql:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=ishant
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=backend
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./psql_db:/var/lib/postgresql/data
+    networks:
+      - avl_network
+
+networks:
+  avl_network:
+    driver: bridge
+
+volumes:
+  node_modules:
+  psql:
+    driver: local

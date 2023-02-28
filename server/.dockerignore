@@ -1,0 +1,6 @@
+.git
+.gitignore
+node_modules
+Dockerfile
+dist/*
+psql_db
