@@ -6,7 +6,7 @@ import { EventsDatabaseService } from '../../Events/events.database.service';
 import { EventsService } from '../../Events/events.service';
 import { TrackingPlan } from '../../TrackingPlans/entities/TrackingPlan.entity';
 import { EventsController } from '../events.controller';
-import { eventsData } from './testData';
+import { eventsData, eventsData2, eventsData3 } from './testData';
 dotenv.config({ path: '.env.development' });
 
 describe('EventsController', () => {
@@ -66,57 +66,38 @@ describe('EventsController', () => {
     });
   });
 
-  // describe('findAll', () => {
-  //   it('should return an array of events', async () => {
-  //     await controller.createEvent(eventsData);
-  //     await controller.createEvent(eventsData2);
-  //     await controller.createEvent(eventsData3);
+  describe('findAll', () => {
+    it('should return an array of events', async () => {
+      await controller.createEvent(eventsData);
+      await controller.createEvent(eventsData2);
+      await controller.createEvent(eventsData3);
 
-  //     const result = await controller.getAllEvents();
-  //     expect(result).toBeInstanceOf(Array);
-  //     expect(result.length).toBe(3);
-  //     console.log(result);
-  //     // expect(result[0]).toHaveProperty('events');
-  //   });
-  // });
+      const result = await controller.getAllEvents();
+      expect(result).toBeInstanceOf(Array);
+      expect(result.length).toBe(3);
+    });
+  });
 
-  // describe('findOne', () => {
-  //   it('should return a tracking plan by id', async () => {
-  //     const {
-  //       data: { id },
-  //     } = await controller.create(trackingPlanWithEventsData);
+  describe('findOne', () => {
+    it('should return a tracking plan by id', async () => {
+      const { id } = await controller.createEvent(eventsData);
 
-  //     const result = await controller.findOne(`${id}`);
-  //     expect(result).toHaveProperty('data');
-  //     const resultData = result.data;
-  //     expect(resultData?.display_name).toBe(
-  //       trackingPlanWithEventsData.display_name,
-  //     );
-  //     expect(resultData?.description).toBe(
-  //       trackingPlanWithEventsData.description,
-  //     );
-  //     expect(resultData.events.length).toBe(2);
-  //     expect(resultData.events[0].name).toBe(
-  //       trackingPlanWithEventsData.rules.events[0].name,
-  //     );
-  //   });
-  // });
+      const result = await controller.getEventById(id);
+      expect(result?.name).toBe(eventsData.name);
+      expect(result?.description).toBe(eventsData.description);
+    });
+  });
 
-  // describe('update', () => {
-  //   it('should update a tracking plan by id', async () => {
-  //     const {
-  //       data: { id },
-  //     } = await controller.create(trackingPlanWithEventsData);
+  describe('update', () => {
+    it('should update an event by id', async () => {
+      const { id } = await controller.createEvent(eventsData);
 
-  //     const updateDto: UpdateTrackingPlanDto = {
-  //       display_name: 'Updated Tracking Plan',
-  //       description: 'An updated tracking plan',
-  //     };
+      const result = await controller.updateEvent(id, eventsData2);
+      expect(result?.affected).toBe(1);
 
-  //     const result = await controller.update(`${id}`, updateDto);
-  //     const resultData = result?.data || {};
-  //     console.log(resultData);
-  //     expect(resultData?.affected).toBe(1);
-  //   });
-  // });
+      const event = await controller.getEventById(id);
+      expect(event?.name).toBe(eventsData2.name);
+      expect(event?.description).toBe(eventsData2.description);
+    });
+  });
 });
