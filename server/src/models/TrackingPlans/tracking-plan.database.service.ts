@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventEntity } from 'src/models/Events/entities/Event.entity';
 import { TrackingPlan } from 'src/models/TrackingPlans/entities/TrackingPlan.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { UpdateTrackingPlanDto } from './dto/update-tracking-plan.dto';
 
 @Injectable()
@@ -21,7 +21,10 @@ export class TrackingPlanDatabaseService {
   }
 
   async findOne(id: string): Promise<TrackingPlan> {
-    return this.trackingPlanRepository.findOne({ where: { id: +id } });
+    return this.trackingPlanRepository.findOne({
+      where: { id: +id },
+      relations: { events: true },
+    });
   }
 
   async update(id: string, trackingPlan: UpdateTrackingPlanDto): Promise<any> {
@@ -69,5 +72,9 @@ export class TrackingPlanDatabaseService {
       (event) => event.id !== +eventId,
     );
     await this.trackingPlanRepository.save(trackingPlan);
+  }
+
+  async truncate(): Promise<DeleteResult> {
+    return await this.trackingPlanRepository.delete({});
   }
 }

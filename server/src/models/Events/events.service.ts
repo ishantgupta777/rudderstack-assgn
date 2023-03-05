@@ -35,4 +35,8 @@ export class EventsService {
   async remove(id: number): Promise<DeleteResult> {
     return await this.eventsDatabaseService.delete(id);
   }
+
+  async truncate(): Promise<DeleteResult> {
+    return await this.eventsDatabaseService.truncate();
+  }
 }

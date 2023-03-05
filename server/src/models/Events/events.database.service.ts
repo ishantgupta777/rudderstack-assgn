@@ -35,4 +35,8 @@ export class EventsDatabaseService {
   async count(queryParams: any): Promise<number> {
     return this.eventsRepository.count(queryParams);
   }
+
+  async truncate(): Promise<DeleteResult> {
+    return await this.eventsRepository.delete({});
+  }
 }

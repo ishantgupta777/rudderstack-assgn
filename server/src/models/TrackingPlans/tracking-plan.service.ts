@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { EventsDatabaseService } from '../Events/events.database.service';
-import { EventsService } from '../Events/events.service';
 
 import { EventEntity } from '../Events/entities/Event.entity';
 import { CreateTrackingPlanDto } from './dto/create-tracking-plan.dto';
@@ -12,7 +12,6 @@ import { TrackingPlanDatabaseService } from './tracking-plan.database.service';
 export class TrackingPlanService {
   constructor(
     private readonly trackingPlanDatabaseService: TrackingPlanDatabaseService,
-    private readonly eventService: EventsService,
     private readonly eventDatabaseService: EventsDatabaseService,
   ) {}
 
@@ -57,5 +56,9 @@ export class TrackingPlanService {
 
   async delete(id: number): Promise<any> {
     return await this.trackingPlanDatabaseService.delete(id);
+  }
+
+  async truncate(): Promise<DeleteResult> {
+    return await this.trackingPlanDatabaseService.truncate();
   }
 }
