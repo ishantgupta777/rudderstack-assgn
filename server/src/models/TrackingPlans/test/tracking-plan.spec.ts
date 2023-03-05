@@ -154,7 +154,6 @@ describe('TrackingPlanController', () => {
 
       const result = await controller.update(`${id}`, updateDto);
       const resultData = result?.data || {};
-      console.log(resultData);
       expect(resultData?.affected).toBe(1);
     });
   });
