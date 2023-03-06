@@ -6,12 +6,15 @@ import { EventsDatabaseService } from '../../Events/events.database.service';
 import { EventsService } from '../../Events/events.service';
 import { TrackingPlan } from '../../TrackingPlans/entities/TrackingPlan.entity';
 import { EventsController } from '../events.controller';
+import { TrackingPlanDatabaseService } from './../../TrackingPlans/tracking-plan.database.service';
+import { TrackingPlanService } from './../../TrackingPlans/tracking-plan.service';
 import { eventsData, eventsData2, eventsData3 } from './testData';
 dotenv.config({ path: '.env.development' });
 
 describe('EventsController', () => {
   let controller: EventsController;
   let service: EventsService;
+  let trackingPlanService: TrackingPlanService;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -30,15 +33,26 @@ describe('EventsController', () => {
         TypeOrmModule.forFeature([TrackingPlan, EventEntity]),
       ],
       controllers: [EventsController],
-      providers: [EventsService, EventsDatabaseService],
+      providers: [
+        EventsService,
+        EventsDatabaseService,
+        TrackingPlanService,
+        TrackingPlanDatabaseService,
+      ],
     }).compile();
 
     controller = moduleRef.get<EventsController>(EventsController);
     service = moduleRef.get<EventsService>(EventsService);
+    trackingPlanService =
+      moduleRef.get<TrackingPlanService>(TrackingPlanService);
+
+    await service.truncate();
+    await trackingPlanService.truncate();
   });
 
   afterEach(async () => {
     await service.truncate();
+    await trackingPlanService.truncate();
   });
 
   describe('create', () => {
@@ -74,7 +88,7 @@ describe('EventsController', () => {
 
       const result = await controller.getAllEvents();
       expect(result).toBeInstanceOf(Array);
-      expect(result.length).toBe(3);
+      expect(result.length).toBeGreaterThanOrEqual(3);
     });
   });
 

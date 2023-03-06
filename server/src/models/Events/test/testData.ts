@@ -1,7 +1,7 @@
 import { CreateEventDto } from '../dto/create-event.dto';
 
 export const eventsData: CreateEventDto = {
-  name: 'Event 1',
+  name: 'Event 21',
   description: 'Event 1 description',
   rules: JSON.parse(
     JSON.stringify({
@@ -15,7 +15,7 @@ export const eventsData: CreateEventDto = {
 };
 
 export const eventsData2: CreateEventDto = {
-  name: 'Event 2',
+  name: 'Event 22',
   description: 'Event 3 description',
   rules: JSON.parse(
     JSON.stringify({
@@ -29,7 +29,7 @@ export const eventsData2: CreateEventDto = {
 };
 
 export const eventsData3: CreateEventDto = {
-  name: 'Event 3',
+  name: 'Event 23',
   description: 'Event 3 description',
   rules: JSON.parse(
     JSON.stringify({

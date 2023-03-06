@@ -1,5 +1,6 @@
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 import React, { useState } from "react";
 import { BASE_URL } from "../constants";
@@ -9,6 +10,7 @@ const AddTrackingPlanForm = () => {
   const [description, setDescription] = useState("");
   const [events, setEvents] = useState([]);
   const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [err, setErr] = useState(null);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -48,6 +50,7 @@ const AddTrackingPlanForm = () => {
 
   const handleSubmit = async () => {
     try {
+      setSubmitDisabled(true);
       if (!name) return;
       console.log("final data ", name, description, events);
       const data = {
@@ -62,8 +65,21 @@ const AddTrackingPlanForm = () => {
 
       const res = await axios.post(`${BASE_URL}/tracking-plans/`, data);
       console.log("added data ", res.data);
+      setSubmitDisabled(false);
     } catch (err) {
       console.log(err);
+      if (
+        err?.response?.data?.message?.includes(
+          "duplicate key value violates unique constraint"
+        )
+      ) {
+        setErr("Event with same name exists, please choose unique event names");
+      } else if (err?.response?.data?.message) {
+        setErr(err?.response?.data?.message);
+      } else {
+        setErr(err?.message);
+      }
+      setSubmitDisabled(false);
     }
   };
 
@@ -114,6 +130,11 @@ const AddTrackingPlanForm = () => {
       >
         Submit
       </Button>
+      {!!err && (
+        <Typography style={{ color: "red" }} variant="body1">
+          {err}
+        </Typography>
+      )}
     </div>
   );
 };

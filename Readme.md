@@ -15,7 +15,7 @@ Before running the application, you need to have the following installed on your
 1. Clone the repository:
 
 ```
-https://github.com/ishantgupta777/rudderstack-assgns
+https://github.com/ishantgupta777/rudderstack-assgn.git
 ```
 
 2. Navigate to the `server` directory:
@@ -34,7 +34,7 @@ docker-compose -f docker-compose.development.yml up
 
 5. The server should now be running on `http://localhost:3002`.
 
-6. To run all the tests, run this command inside server folder.
+6. To run all the tests, run this command inside server folder. Before that, you need to create a new database named `testing-db`
 
 ```
 yarn run test

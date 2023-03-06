@@ -2,21 +2,20 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
-  HttpException,
   HttpStatus,
   Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
-@Catch(HttpException)
+@Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
   private readonly logger: Logger = new Logger();
 
-  catch(exception: HttpException, host: ArgumentsHost) {
+  catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const statusCode = exception.getStatus() || 500;
+    const statusCode = 500; // change it later to add proper status code
     const message = exception.message || HttpStatus.INTERNAL_SERVER_ERROR;
     const path = request.url;
     const timestamp = new Date().toISOString();

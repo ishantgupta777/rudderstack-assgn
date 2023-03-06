@@ -11,32 +11,36 @@ export const trackingPlanWithEventsData: CreateTrackingPlanDto = {
   description: 'A test tracking plan which should create events with it',
   rules: {
     events: [
-      {
-        name: 'Event 1',
-        description: 'Event 1 description',
-        rules: JSON.parse(
-          JSON.stringify({
-            key: 'value',
-            key2: 'value2',
-            nestedKey: {
-              nestedKey1: 'nestedValue',
-            },
-          }),
-        ),
-      },
-      {
-        name: 'Event 2',
-        description: 'Event 2 description',
-        rules: JSON.parse(
-          JSON.stringify({
-            key: 'value',
-            key2: 'value2',
-            nestedKey: {
-              nestedKey1: 'nestedValue',
-            },
-          }),
-        ),
-      },
+      JSON.parse(
+        JSON.stringify({
+          name: 'Event 1111',
+          description: 'Event 1 description',
+          rules: JSON.parse(
+            JSON.stringify({
+              key: 'value',
+              key2: 'value2',
+              nestedKey: {
+                nestedKey1: 'nestedValue',
+              },
+            }),
+          ),
+        }),
+      ),
+      JSON.parse(
+        JSON.stringify({
+          name: 'Event 221111',
+          description: 'Event 2 description',
+          rules: JSON.parse(
+            JSON.stringify({
+              key: 'value',
+              key2: 'value2',
+              nestedKey: {
+                nestedKey1: 'nestedValue',
+              },
+            }),
+          ),
+        }),
+      ),
     ],
   },
 };
@@ -47,7 +51,7 @@ export const trackingPlanWithDuplicateEventsData: CreateTrackingPlanDto = {
   rules: {
     events: [
       {
-        name: 'Event 1',
+        name: 'Event 11',
         description: 'Event 1 description',
         rules: JSON.parse(
           JSON.stringify({
@@ -60,7 +64,7 @@ export const trackingPlanWithDuplicateEventsData: CreateTrackingPlanDto = {
         ),
       },
       {
-        name: 'Event 1',
+        name: 'Event 11',
         description: 'Event 2 description',
         rules: JSON.parse(
           JSON.stringify({
