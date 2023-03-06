@@ -88,7 +88,7 @@ describe('EventsController', () => {
 
       const result = await controller.getAllEvents();
       expect(result).toBeInstanceOf(Array);
-      expect(result.length).toBeGreaterThanOrEqual(3);
+      expect(result[0]).toHaveProperty('name');
     });
   });
 
