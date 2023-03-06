@@ -5,7 +5,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { BASE_URL } from "../constants";
 
-const AddTrackingPlanForm = () => {
+const AddTrackingPlanForm = ({ setOpen }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [events, setEvents] = useState([]);
@@ -66,6 +66,7 @@ const AddTrackingPlanForm = () => {
       const res = await axios.post(`${BASE_URL}/tracking-plans/`, data);
       console.log("added data ", res.data);
       setSubmitDisabled(false);
+      setOpen(false);
     } catch (err) {
       console.log(err);
       if (

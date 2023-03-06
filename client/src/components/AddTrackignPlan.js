@@ -52,7 +52,7 @@ const AddTrackingPlanButton = () => {
       </Button>
       <Modal open={open} onClose={handleClose}>
         <div className={classes.paper}>
-          <AddTrackingPlanForm />
+          <AddTrackingPlanForm setOpen={setOpen} />
         </div>
       </Modal>
     </>
